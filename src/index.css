@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  background-image: url("../public/assets/intro-page.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  }
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
