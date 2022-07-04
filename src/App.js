@@ -7,8 +7,7 @@ export default function App() {
   const [checkAnswer, setCheckAnswer] = React.useState(false);
   const [playAgain, setPlayAgain] = React.useState(false);
 
-  console.log("app");
-
+  console.log("incio app ca pa", checkAnswer, playAgain);
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5")
       .then((res) => res.json())
@@ -61,9 +60,11 @@ export default function App() {
       .replaceAll("&Aacute;", "Á")
       .replaceAll("&lt;", "<")
       .replaceAll("&Uuml;", "Ü")
-      .replaceAll("&uuml;","ü")
-      .replaceAll("&ldquo;","“")
-      .replaceAll("&rdquo;","”")
+      .replaceAll("&uuml;", "ü")
+      .replaceAll("&ldquo;", "“")
+      .replaceAll("&rdquo;", "”")
+      .replaceAll("&ntilde", "ñ")
+      .replaceAll("&Ntilde", "ñ")
 
     return aux;
   }
@@ -98,7 +99,6 @@ export default function App() {
     }
   }
 
-
   const questionList = questions.map((question) => {
     return (
       <>
@@ -112,7 +112,7 @@ export default function App() {
       </>
     );
   });
-  function countRightAnswers(){
+  function countRightAnswers() {
     let count = 0;
     for (let i = 0; i < answers.length; i++) {
       for (let j = 0; j < answers[i].length; j++) {
@@ -125,34 +125,30 @@ export default function App() {
   }
 
   function handleCheckAnswer() {
-    setCheckAnswer(prevState => !prevState)
-    console.log("check answuer", checkAnswer)
+    setCheckAnswer((prevState) => !prevState);
   }
   function handlePlayAgain() {
-    setPlayAgain(prevState => !prevState)
-    setCheckAnswer(prevState => !prevState)
-    console.log("check play again", playAgain)
+    setPlayAgain((prevState) => !prevState);
+    setCheckAnswer((prevState) => !prevState);
   }
 
   return (
     <div>
       <div>{questionList}</div>
-      { checkAnswer
-        ?
-        <div>
-          <div>You scored {countRightAnswers()}/5 correct answers</div>
-          <button className="button"
-            onClick={handlePlayAgain}>
-            Play again 
+      {checkAnswer ? (
+        <div className="centerButton">
+          <div className="score">You scored {countRightAnswers()}/5 correct answers</div>
+          <button className="button" onClick={handlePlayAgain}>
+            Play again
           </button>
         </div>
-        :
-        <button className="button" 
-        onClick={handleCheckAnswer}>
-        Check answers
-      </button>
-      }
-      
+      ) : (
+        <div className="centerButton">
+          <button className="button" onClick={handleCheckAnswer}>
+            Check answers
+          </button>
+        </div>
+      )}
     </div>
   );
 }

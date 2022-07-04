@@ -1,3 +1,10 @@
+:root {
+  --primaryFont: "Karla";
+  --primaryFont_size: 1.2rem;
+  --secondaryFont: "Inter";
+  --secondaryFont_size: 0.8rem;
+  
+}
 body {
   margin: 0;
   background-image: url("../public/assets/intro-page.svg");
@@ -10,20 +17,56 @@ code {
     monospace;
 }
 
-.answerBox {
+.answer {
   padding: 0.5rem;
   margin-right: 1rem;
   border: 0.04rem solid #4d5b9e;
   border-radius: 0.5rem;
   cursor: pointer;
+  font-family: var(--secondaryFont);
+  font-size: var(--secondaryFont_size);
+
 }
 .button {
+  font-family: var(--primaryFont);
+  font-size: var(--primaryFont_size);
   background-color: #4d5b9e;
   color: white;
   border-radius: 0.6rem;
   border: none;
   padding: 0.5rem;
+  min-width: 8rem;
   margin-top: 1rem;
   cursor: pointer;
+  
+}
+.score{
+  font-family: var(--primaryFont);
+  font-size: var(--primaryFont_size);
+
+}
+.answerContainer{
+  display: flex;
+  flex-direction: row;
 }
 
+.questionContainer{
+  max-width: 70rem;
+  margin: 0 auto;
+}
+
+.question{
+  font-family: var(--primaryFont);
+  font-size: var(--primaryFont_size);
+
+}
+.centerButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: 1rem;
+}
+.hr{
+  margin: 1rem 0;
+}
