@@ -69,7 +69,7 @@ export default function App() {
           {
             auxAns.push({...answers[i][j], isHeld: !answers[i][j].isHeld})
           }else{
-            auxAns.push(answers[i][j])
+            auxAns.push({...answers[i][j], isHeld: false})
           }
         }
         auxArr.push(auxAns)
