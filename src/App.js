@@ -149,6 +149,8 @@ export default function App() {
           </button>
         </div>
       )}
+      <footer> Coded with &#9825; by <a href="https://github.com/hidalgobri"
+            target="_blank">Valeria Hidalgo C</a></footer>
     </div>
   );
 }
