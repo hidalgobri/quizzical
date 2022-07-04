@@ -3,9 +3,17 @@ body {
   background-image: url("../public/assets/intro-page.svg");
   background-repeat: no-repeat;
   background-size: cover;
-  }
+}
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.answerBox{
+  padding: 0.5rem;
+  margin-right: 1rem;
+  border: 0.04rem solid #4d5b9e;
+  border-radius: 0.5rem;
+  cursor: pointer;
 }

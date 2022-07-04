@@ -2,14 +2,29 @@ import React from "react";
 
 export default function Question(props) {
 
-  props.answersList.map(  item => console.log(item))
-  
-  console.log("question")
-  console.log(props.answersList)
+  // console.log("question",props.answers);
+
+  const answers = props.answers.map((item) => {
+    const styles = {
+      backgroundColor: item.isHeld ? "#D6DBF5" : "white",
+
+    };
+
+    return (
+      <span
+        className="answerBox"
+        style={styles}
+        onClick={() => props.handleAnswer(item.question, item.answer)}
+      >
+        {item.answer}
+      </span>
+    );
+  });
+
   return (
     <div>
       <h2>{props.question}</h2>
-     
+      {answers}
     </div>
   );
 }

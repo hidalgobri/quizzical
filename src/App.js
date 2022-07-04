@@ -3,40 +3,101 @@ import Question from "./components/Question";
 import { nanoid } from "nanoid";
 export default function App() {
   const [questions, setQuestions] = React.useState([]);
+  const [answers, setAnswers] = React.useState([]);
+
+  console.log("app");
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5")
       .then((res) => res.json())
-      .then((data) =>
+      .then((data) => {
+        const auxData = data.results;
         setQuestions(
-          data.results.map((item) => {
-            item.question = item.question.replaceAll("&#039;", "'");
-            item.question = item.question.replaceAll("&quot;", '"');
-            item.question = item.question.replaceAll("&eacute;","é");
-            return item;
+          auxData.map((item) => {
+            const auxQuest = {
+              question: changeHTMLtoString(item.question),
+              category: item.category,
+              type: item.type,
+              difficulty: item.difficulty,
+            };
+            return auxQuest;
           })
-        )
-      );
+        );
+        setAnswers(
+          auxData.map((question) => {
+            const answers = [];
+            answers.push({
+              question: changeHTMLtoString(question.question),
+              answer: changeHTMLtoString(question.correct_answer),
+              correct: true,
+              isHeld: false,
+            });
+            question.incorrect_answers.map((item) =>
+              answers.push({
+                question: changeHTMLtoString(question.question),
+                answer: changeHTMLtoString(item),
+                correct: false,
+                isHeld: false,
+              })
+            );
+
+            return answers.sort(() => Math.random() - 0.5);
+          })
+        );
+      });
   }, []);
 
-  function answersPerQuestion(question) {
-    console.log("app")
-    const answers = []
-    const auxQuestion = questions.find((item) => item.question === question);
-    answers.push({ answer: auxQuestion.correct_answer, rigth: true })
-    auxQuestion.incorrect_answers.map((item) =>
-      answers.push({ answer: item, rigth: false })
-    );
+  function changeHTMLtoString(question) {
+    const aux = question
+      .replaceAll("&#039;", "'")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&eacute;", "é")
+      .replaceAll("&amp;", "&")
+      .replaceAll("&deg;", "°")
+      .replaceAll("&Uuml;", "Ü");
 
-    console.log(typeof answers)
-    return answers;
+    return aux;
+  }
+  function handleAnswer(question, answer) {
+    //cambia el valor isHeld en la respectiva respuesta
+    const auxArr = [];
+    for (let i = 0; i < answers.length; i++) {   
+      if (answers[i][0].question === question) {
+        const auxAns = []
+        for (let j = 0; j < answers[i].length; j++) {
+          if (answers[i][j].answer === answer )
+          {
+            auxAns.push({...answers[i][j], isHeld: !answers[i][j].isHeld})
+          }else{
+            auxAns.push(answers[i][j])
+          }
+        }
+        auxArr.push(auxAns)
+      } else{
+        auxArr.push(answers[i])
+      }
+    }
+    setAnswers(auxArr)
+
+  }
+
+  function answersPerQuestion(question) {
+    //answers es un arreglo de arreglos
+    //[ [preguntas_question1 ] [preguntas_questoin2]]
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i][0].question === question) {
+        return answers[i];
+      }
+    }
   }
 
   const questionList = questions.map((question) => {
     return (
       <Question
+        key={nanoid()}
         question={question.question}
-        answersList={answersPerQuestion(question.question)}
+        answers={answersPerQuestion(question.question)}
+        handleAnswer={handleAnswer}
       />
     );
   });
