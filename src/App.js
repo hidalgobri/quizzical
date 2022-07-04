@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 export default function App() {
   const [questions, setQuestions] = React.useState([]);
   const [answers, setAnswers] = React.useState([]);
+  const [checkAnswer, setCheckAnswer] = React.useState(false);
 
   console.log("app");
 
@@ -52,8 +53,11 @@ export default function App() {
       .replaceAll("&#039;", "'")
       .replaceAll("&quot;", '"')
       .replaceAll("&eacute;", "é")
+      .replaceAll("&Eacute;", "É")
       .replaceAll("&amp;", "&")
       .replaceAll("&deg;", "°")
+      .replaceAll("&aacute;", "á")
+      .replaceAll("&lt;", "<")
       .replaceAll("&Uuml;", "Ü");
 
     return aux;
@@ -61,24 +65,22 @@ export default function App() {
   function handleAnswer(question, answer) {
     //cambia el valor isHeld en la respectiva respuesta
     const auxArr = [];
-    for (let i = 0; i < answers.length; i++) {   
+    for (let i = 0; i < answers.length; i++) {
       if (answers[i][0].question === question) {
-        const auxAns = []
+        const auxAns = [];
         for (let j = 0; j < answers[i].length; j++) {
-          if (answers[i][j].answer === answer )
-          {
-            auxAns.push({...answers[i][j], isHeld: !answers[i][j].isHeld})
-          }else{
-            auxAns.push({...answers[i][j], isHeld: false})
+          if (answers[i][j].answer === answer) {
+            auxAns.push({ ...answers[i][j], isHeld: !answers[i][j].isHeld });
+          } else {
+            auxAns.push({ ...answers[i][j], isHeld: false });
           }
         }
-        auxArr.push(auxAns)
-      } else{
-        auxArr.push(answers[i])
+        auxArr.push(auxAns);
+      } else {
+        auxArr.push(answers[i]);
       }
     }
-    setAnswers(auxArr)
-
+    setAnswers(auxArr);
   }
 
   function answersPerQuestion(question) {
@@ -91,16 +93,30 @@ export default function App() {
     }
   }
 
+
   const questionList = questions.map((question) => {
     return (
-      <Question
-        key={nanoid()}
-        question={question.question}
-        answers={answersPerQuestion(question.question)}
-        handleAnswer={handleAnswer}
-      />
+      <>
+        <Question
+          key={nanoid()}
+          question={question.question}
+          answers={answersPerQuestion(question.question)}
+          handleAnswer={handleAnswer}
+          checkAnswer={checkAnswer}
+        />
+      </>
     );
   });
 
-  return <div>{questionList}</div>;
+  function handleCheckAnswer() {
+    setCheckAnswer(!checkAnswer)
+    console.log(checkAnswer)
+  }
+
+  return (
+    <div>
+      <div>{questionList}</div>
+      <button className="checkButton" onClick={handleCheckAnswer}>{checkAnswer ? "Play again": "Check answers"}</button>
+    </div>
+  );
 }

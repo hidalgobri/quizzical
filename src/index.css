@@ -10,10 +10,18 @@ code {
     monospace;
 }
 
-.answerBox{
+.answerBox {
   padding: 0.5rem;
   margin-right: 1rem;
   border: 0.04rem solid #4d5b9e;
   border-radius: 0.5rem;
   cursor: pointer;
 }
+.checkButton {
+  background-color: #4d5b9e;
+  border-radius: 0.6rem;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
