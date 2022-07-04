@@ -5,6 +5,7 @@ export default function App() {
   const [questions, setQuestions] = React.useState([]);
   const [answers, setAnswers] = React.useState([]);
   const [checkAnswer, setCheckAnswer] = React.useState(false);
+  const [playAgain, setPlayAgain] = React.useState(false);
 
   console.log("app");
 
@@ -46,7 +47,7 @@ export default function App() {
           })
         );
       });
-  }, []);
+  }, [playAgain]);
 
   function changeHTMLtoString(question) {
     const aux = question
@@ -57,8 +58,12 @@ export default function App() {
       .replaceAll("&amp;", "&")
       .replaceAll("&deg;", "°")
       .replaceAll("&aacute;", "á")
+      .replaceAll("&Aacute;", "Á")
       .replaceAll("&lt;", "<")
-      .replaceAll("&Uuml;", "Ü");
+      .replaceAll("&Uuml;", "Ü")
+      .replaceAll("&uuml;","ü")
+      .replaceAll("&ldquo;","“")
+      .replaceAll("&rdquo;","”")
 
     return aux;
   }
@@ -107,16 +112,47 @@ export default function App() {
       </>
     );
   });
+  function countRightAnswers(){
+    let count = 0;
+    for (let i = 0; i < answers.length; i++) {
+      for (let j = 0; j < answers[i].length; j++) {
+        if (answers[i][j].correct && answers[i][j].isHeld) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
 
   function handleCheckAnswer() {
-    setCheckAnswer(!checkAnswer)
-    console.log(checkAnswer)
+    setCheckAnswer(prevState => !prevState)
+    console.log("check answuer", checkAnswer)
+  }
+  function handlePlayAgain() {
+    setPlayAgain(prevState => !prevState)
+    setCheckAnswer(prevState => !prevState)
+    console.log("check play again", playAgain)
   }
 
   return (
     <div>
       <div>{questionList}</div>
-      <button className="checkButton" onClick={handleCheckAnswer}>{checkAnswer ? "Play again": "Check answers"}</button>
+      { checkAnswer
+        ?
+        <div>
+          <div>You scored {countRightAnswers()}/5 correct answers</div>
+          <button className="button"
+            onClick={handlePlayAgain}>
+            Play again 
+          </button>
+        </div>
+        :
+        <button className="button" 
+        onClick={handleCheckAnswer}>
+        Check answers
+      </button>
+      }
+      
     </div>
   );
 }

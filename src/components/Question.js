@@ -5,9 +5,17 @@ export default function Question(props) {
 
   const answers = props.answers.map((item) => {
     const styles = {};
-    if (props.checkAnswer && item.correct && item.isHeld === false) {
-      styles.backgroundColor = "#F8BCBC";
-      styles.border = "none";
+    
+    if (props.checkAnswer) {
+      if (item.isHeld === false && item.correct) {
+        styles.backgroundColor = "#F8BCBC";
+        styles.border = "none";
+      } else if ( item.isHeld && item.correct) {
+        styles.backgroundColor = "#94D7A2";
+        styles.border = "none";
+      } else{
+        styles.backgroundColor = "white";
+      }   
     } else {
       styles.backgroundColor = item.isHeld ? "#D6DBF5" : "white";
       styles.border = item.isHeld ? "none" : "0.04rem solid #4d5b9e";
