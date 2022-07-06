@@ -10,7 +10,7 @@ export default function Question(props) {
       if (item.correct) {
         styles.backgroundColor = "#94D7A2"//green
         styles.border = "none";
-      } else if (item.isHeld && item.correct==false) {
+      } else if (item.isHeld && item.correct===false) {
         styles.backgroundColor = "#F8BCBC";//red
         styles.border = "none";
         styles.opacity= 0.5;
